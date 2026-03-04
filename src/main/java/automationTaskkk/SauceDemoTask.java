@@ -14,8 +14,14 @@ public class SauceDemoTask {
     public static void main(String[] args) throws Exception {
 
         // Launch Chrome Browser
-        ChromeOptions options = new ChromeOptions();
-        WebDriver driver = new ChromeDriver(options);
+    	// Launch Chrome Browser
+    	ChromeOptions options = new ChromeOptions();
+    	options.addArguments("--incognito");
+    	options.addArguments("--disable-save-password-bubble");
+    	options.addArguments("--disable-notifications");
+    	options.addArguments("--no-first-run");
+    	options.addArguments("--disable-extensions");
+    	WebDriver driver = new ChromeDriver(options);
         System.out.println("✅ Step 1: Chrome browser launched.");
 
         // Maximize the browser window
@@ -61,7 +67,7 @@ public class SauceDemoTask {
         String currentURL = driver.getCurrentUrl();
         System.out.println("✅ Step 10: Current URL = " + currentURL);
 
-        // STEP 11: Handle Alert
+        //Handle Alert
         try {
             Alert alert = driver.switchTo().alert();
             System.out.println("⚠️ Step 11: Alert found! Text = " + alert.getText());
@@ -71,7 +77,7 @@ public class SauceDemoTask {
             System.out.println("✅ Step 11: No alert present. (That's fine!)");
         }
 
-        // STEP 12: Checkbox and Radio Button Handling
+        //  Checkbox and Radio Button Handling
         List<WebElement> checkboxes = driver.findElements(By.cssSelector("input[type='checkbox']"));
         if (checkboxes.isEmpty()) {
             System.out.println("✅ Step 12: No checkboxes found on this page.");
@@ -93,7 +99,7 @@ public class SauceDemoTask {
             System.out.println("   ✅ First radio button selected.");
         }
 
-        // STEP 13: Text Box - Enter data
+        // Text Box - Enter data
         List<WebElement> textBoxes = driver.findElements(By.cssSelector("input[type='text']"));
         if (textBoxes.isEmpty()) {
             System.out.println("✅ Step 13: No text box found on this page.");
@@ -106,7 +112,7 @@ public class SauceDemoTask {
             System.out.println("✅ Step 13: Text box cleared.");
         }
 
-        // STEP 14: Close the browser
+        //Close the browser
         Thread.sleep(2000);
         driver.quit();
         System.out.println("✅ Step 14: Browser closed properly.");
