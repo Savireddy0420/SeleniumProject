@@ -12,8 +12,7 @@ import java.util.List;
 public class SauceDemoTask {
 
     public static void main(String[] args) throws Exception {
-
-        // Launch Chrome Browser
+    		
     	// Launch Chrome Browser
     	ChromeOptions options = new ChromeOptions();
     	options.addArguments("--incognito");
@@ -26,7 +25,7 @@ public class SauceDemoTask {
 
         // Maximize the browser window
         driver.manage().window().maximize();
-        System.out.println(" Browser maximized.");
+        System.out.println("Browser maximized.");
 
         // Navigate to SauceDemo website
         driver.get("https://www.saucedemo.com/");
@@ -40,7 +39,7 @@ public class SauceDemoTask {
         WebElement usernameField = driver.findElement(By.id("user-name"));
         usernameField.clear();
         usernameField.sendKeys("standard_user");
-        System.out.println(" Username entered.");
+        System.out.println("Username entered.");
         Thread.sleep(2000);
 
         // Enter Password
@@ -53,70 +52,103 @@ public class SauceDemoTask {
         // Click Login Button
         WebElement loginButton = driver.findElement(By.id("login-button"));
         loginButton.click();
-        System.out.println(" Login button clicked.");
+        System.out.println("Login button clicked.");
 
-        // Wait for page to load
         Thread.sleep(3000);
-        System.out.println(" Waited 3 seconds for page to load.");
-
-        // Print page title AFTER login
-        String titleAfterLogin = driver.getTitle();
-        System.out.println(" Page title after login = " + titleAfterLogin);
+        System.out.println("Waited 3 seconds for page to load.");
 
         // Print current URL after login
         String currentURL = driver.getCurrentUrl();
         System.out.println("Current URL = " + currentURL);
 
-        //Handle Alert
-        try {
-            Alert alert = driver.switchTo().alert();
-            System.out.println("Alert found! Text = " + alert.getText());
-            alert.accept();
-            System.out.println("Alert closed.");
-        } catch (NoAlertPresentException e) {
-            System.out.println("No alert present. (That's fine!)");
-        }
+        Thread.sleep(2000);
+        WebElement specificItem = driver.findElement(
+        	    By.xpath("//div[text()='Test.allTheThings() T-Shirt (Red)']/ancestor::div[@class='inventory_item']//button"));
+        	specificItem.click();
+        	System.out.println("'Test.allTheThings() T-Shirt (Red)' added to cart.");
 
-        //  Checkbox and Radio Button Handling
-        List<WebElement> checkboxes = driver.findElements(By.cssSelector("input[type='checkbox']"));
-        if (checkboxes.isEmpty()) {
-            System.out.println("No checkboxes found on this page.");
-        } else {
-            for (WebElement checkbox : checkboxes) {
-                checkbox.click();
-                System.out.println("   ✅ Checkbox selected.");
-                Thread.sleep(500);
-                checkbox.click();
-                System.out.println("   ✅ Checkbox deselected.");
-            }
-        }
+        	// Verify cart badge shows 1
+        	Thread.sleep(1000);
+        	String cartCount = driver.findElement(By.className("shopping_cart_badge")).getText();
+        	System.out.println("Cart item count = " + cartCount);
 
-        List<WebElement> radioButtons = driver.findElements(By.cssSelector("input[type='radio']"));
-        if (radioButtons.isEmpty()) {
-            System.out.println(" No radio buttons found on this page.");
-        } else {
-            radioButtons.get(0).click();
-            System.out.println("   ✅ First radio button selected.");
-        }
+        	// Wait 5 seconds
+        	Thread.sleep(3000);
+        	System.out.println("Waited 3 seconds.");
+        	
+        	
+        	driver.findElement(By.className("shopping_cart_link")).click();
+        	System.out.println("Cart icon clicked");
+        	Thread.sleep(3000);
+        	
+        	// Remove from the cart
+        	WebElement removeButton = driver.findElement(
+        		By.xpath("//div[text()='Test.allTheThings() T-Shirt (Red)']/ancestor::div[@class='cart_item']//button"));
+        	removeButton.click();
+        	System.out.println("Item removed from cart.");
+        	Thread.sleep(2000);
 
-        // Text Box - Enter data
-        List<WebElement> textBoxes = driver.findElements(By.cssSelector("input[type='text']"));
-        if (textBoxes.isEmpty()) {
-            System.out.println(" No text box found on this page.");
-        } else {
-            textBoxes.get(0).clear();
-            textBoxes.get(0).sendKeys("Hello Automation!");
-            System.out.println(" Text entered: 'Hello Automation!'");
-            Thread.sleep(1000);
-            textBoxes.get(0).clear();
-            System.out.println(" Text box cleared.");
-        }
+        	// Verify cart is empty       	
+        	List<WebElement> cartItems = driver.findElements(By.className("cart_item"));
+        	if (cartItems.isEmpty()) {
+        	    System.out.println("Cart is now empty! ");
+        	} else {
+        	    System.out.println("Cart still has items");
+        	}
+        	
+        	// Go Back to Home Page (Continue Shopping)     	
+        	driver.findElement(By.id("continue-shopping")).click();
+        	System.out.println("Clicked 'Continue Shopping' — back on Home page.");
+        	Thread.sleep(2000);
+        	
+        	// Click Burger Menu ☰
+        	driver.findElement(By.id("react-burger-menu-btn")).click();
+        	System.out.println("Burger menu opened.");
+        	Thread.sleep(2000);
+        	
+        	//Click Logout
+        	driver.findElement(By.id("logout_sidebar_link")).click();
+        	System.out.println("Logout clicked.");
+        	Thread.sleep(2000);
+
+//        //  Checkbox and Radio Button Handling
+//        List<WebElement> checkboxes = driver.findElements(By.cssSelector("input[type='checkbox']"));
+//        if (checkboxes.isEmpty()) {
+//            System.out.println("No checkboxes found on this page.");
+//        } else {
+//            for (WebElement checkbox : checkboxes) {
+//                checkbox.click();
+//                System.out.println("✅ Checkbox selected.");
+//                Thread.sleep(500);
+//                checkbox.click();
+//                System.out.println("✅ Checkbox deselected.");
+//            }
+//        }
+//
+//        List<WebElement> radioButtons = driver.findElements(By.cssSelector("input[type='radio']"));
+//        if (radioButtons.isEmpty()) {
+//            System.out.println("No radio buttons found on this page.");
+//        } else {
+//            radioButtons.get(0).click();
+//            System.out.println("✅ First radio button selected.");
+//        }
+//
+//        // Text Box - Enter data
+//        List<WebElement> textBoxes = driver.findElements(By.cssSelector("input[type='text']"));
+//        if (textBoxes.isEmpty()) {
+//            System.out.println("No text box found on this page.");
+//        } else {
+//            textBoxes.get(0).clear();
+//            textBoxes.get(0).sendKeys("Hello Automation!");
+//            System.out.println("Text entered: 'Hello Automation!'");
+//            Thread.sleep(1000);
+//            textBoxes.get(0).clear();
+//            System.out.println("Text box cleared.");
+//        }
 
         //Close the browser
-        Thread.sleep(2000);
         driver.quit();
-        System.out.println("Browser closed properly.");
+        System.out.println("Browser closed");
 
-        System.out.println("\n🎉 ALL STEPS COMPLETED SUCCESSFULLY!");
     }
 }
